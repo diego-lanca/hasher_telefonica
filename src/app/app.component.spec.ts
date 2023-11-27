@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'hasher_telefonica' title`, () => {
+  it(`should have the 'lista_telefonica_hash' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('hasher_telefonica');
+    expect(app.title).toEqual('lista_telefonica_hash');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, hasher_telefonica');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, lista_telefonica_hash');
   });
 });
