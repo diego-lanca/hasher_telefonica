@@ -1,72 +1,81 @@
-import { AuthService } from "./auth.service";
-import { HomeComponent } from "../home.component";
+import { AuthService } from './auth.service';
+import { HomeComponent } from '../home.component';
 
 export class ContatoService {
-    contatos = new Map<number, Contato>();
+  // Mapa principal para armazenar os contatos
+  contatos = new Map<number, Contato>();
 
-    adicionarContato(contato: Contato) {
-        this.contatos.set(contato.pos, contato);
+  // Função para adicionar um contato ao mapa
+  adicionarContato(contato: Contato) {
+    this.contatos.set(contato.pos, contato);
+  }
+
+  // Função para retornar todos os contatos ou um contato específico
+  getContatos(pos?: number): any {
+    if (pos === undefined) {
+      return this.contatos;
+    }
+    return this.contatos.get(pos);
+  }
+
+  // Função para calcular a posição de um contato e ajustar o hash do contato se a posição já estiver ocupada
+  setPos(arg: Contato): any {
+    let position = arg.hash % 100;
+
+    while (this.contatos.has(position)) {
+      const existingContact = this.contatos.get(position);
+      if (existingContact && existingContact.hash === arg.hash) {
+        // Se o hash do contato existente é o mesmo, significa que já temos esse contato
+        arg.hash += 'A';
+        position++;
+      }
+      else {
+        
+        break;
+      }
     }
 
-    getContatos(pos?: number): any {
-        if (pos === undefined) {
-            return this.contatos;
-        }
-        return this.contatos.get(pos);
+    // Adiciona o contato à posição calculada
+    this.contatos.set(position, arg);
+    return position;
+  }
+
+  // Função para calcular a posição de um contato com base em seu nome
+  getPos(nome: string): any {
+    const hash = AuthService.prototype.criarHash(nome);
+
+    if (isNaN(hash)) {
+      alert('hash is NaN');
+      return NaN;
     }
 
-    setPos(arg: Contato): any {
-      
-        // Se for um objeto Contato, calcule a posição
-        let position = arg.hash % 100;
-      
-        while (this.contatos.has(position)) {
-            position++;
-            const hash = arg.hash.toString() + 'A';
-            arg.hash = hash;
-        }
-      
-        return position;
-      }
+    let position = hash % 100;
 
-      getPos(nome: string): any {
-        
-        const hash = AuthService.prototype.criarHash(nome)
-        
-         // Se for um objeto Contato, calcule a posição
-        if (isNaN(hash)) {
-            alert('hash is NaN');
-            return NaN;
-        }
-      
-        // Se for um objeto Contato, calcule a posição
-        let position = hash % 100;
-      
-        return position;
-      }
+    return position;
+  }
 }
 
 export class Contato {
+  nome: string;
+  telefone: string;
+  endereco: string;
+  hash: any;
+  pos: number = 0;
 
-    nome: string;
-    telefone: string;
-    endereco: string;
-    hash: any;
-    pos: number = 0;
-    next: any = null;
-
-
-    constructor(nome: string, telefone: string, endereco: string, contatoService: ContatoService) {
-        this.nome = nome;
-        this.telefone = telefone;
-        this.endereco = endereco;
-        this.hash = AuthService.prototype.criarHash(this.nome);
-
-        this.pos = contatoService.setPos(this);
-    }
-
+  // Construtor para criar um novo contato
+  constructor(
+    nome: string,
+    telefone: string,
+    endereco: string,
+    contatoService: ContatoService
+  ) {
+    this.nome = nome;
+    this.telefone = telefone;
+    this.endereco = endereco;
+    this.hash = AuthService.prototype.criarHash(this.nome); // Cria um hash a partir do nome
+    this.pos = contatoService.setPos(this); // Define a posição do contato
+  }
 }
 
-export function setInTable(contato: Contato, tb: any) {
-    tb.set(contato.pos, contato)
-}
+const randomInt = (min: number, max: number): number =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
