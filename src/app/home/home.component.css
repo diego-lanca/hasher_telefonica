@@ -1,5 +1,10 @@
 :root {
     --cor-prim: brown;
+}
+
+section {
+    margin-top: 20px;
+    padding: 0;
   }
 
 .results {
@@ -9,6 +14,50 @@
     grid-template-columns: repeat(auto-fill, minmax(400px, 400px));
     margin-top: 50px;
     justify-content: space-around;
+}
+
+.conteudo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+}
+
+.menuBotoes {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: black;
+    width: 50%;
+    height: 50px;
+    -webkit-box-shadow: 0px 3px 36px -7px rgba(0,0,0,0.63);
+    -moz-box-shadow: 0px 3px 36px -7px rgba(0,0,0,0.63);
+    box-shadow: 0px 3px 36px -7px rgba(0,0,0,0.63);
+    border-radius: 42px 42px 42px 42px;
+    -moz-border-radius: 42px 42px 42px 42px;
+    -webkit-border-radius: 42px 42px 42px 42px;
+    border: 0px solid #000000;
+}
+
+button.primary {
+    padding: 10px;
+    border: solid 1px black;
+    background: black;
+    color: white;
+    border-radius: 8px;
+}
+
+button.primary:hover {
+    border-color: #eee;
+    transform: scale(1.08);
+    transition: 0.1s;
+    cursor: pointer;
 }
 
 input[type="text"] {
@@ -34,23 +83,16 @@ input[type="text"] {
     margin: 10px;
 }
 
+#inputContainer {
+    align-items: center;
+    justify-content: center;
+}
+
 #contactList {
     display: none;
     margin: 10px;
 }
 
-.primary {
-    margin: 20px;
-    position: static;
-}
-
-button {
-    padding: 10px;
-    border: solid 1px black;
-    background: black;
-    color: white;
-    border-radius: 8px;
-}
 
 @media (min-width: 500px) and (max-width: 768px) {
     .results {

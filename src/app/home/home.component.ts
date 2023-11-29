@@ -11,46 +11,53 @@ import { AuthService } from './services/auth.service';
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   template: `
     <section>
-      <button class="primary" type="button" (click)="mostrarInput()">Buscar Contato</button>
-      <div id="inputContainer">
-        <form [formGroup]="buscarContatoForm" (ngSubmit)="buscarContato()">
-            <label>
-              Nome:
-              <input type="text" formControlName="nome">
-            </label>
-            <button type="submit" [disabled]="buscarContatoForm.invalid">Buscar</button>
+      <div class="menu">
+        <div class="menuBotoes">
+          <button class="primary" type="button" (click)="mostrarInput()">Buscar Contato</button>
+          <button class="primary" type="button" id="contato_new" (click)="adicionarContatoShow()">Adicionar Contato</button>
+          <button class="primary" type="button" id="list_load" (click)="listLoad()">Carregar Lista</button>
+        </div>
+      </div>
+      <div class="conteudo">
+
+        <div id="inputContainer">
+          <form [formGroup]="buscarContatoForm" (ngSubmit)="buscarContato()">
+              <label>
+                Nome:
+                <input type="text" formControlName="nome">
+              </label>
+              <button type="submit" [disabled]="buscarContatoForm.invalid">Buscar</button>
+            </form>
+          </div>
+        <div id="addContato">
+          <form [formGroup]="meuFormulario" (ngSubmit)="onSubmit()">
+          <label>
+            Nome:
+          <input type="text" formControlName="nome" />
+          </label>
+          <br>
+          <label>
+            Telefone:
+            <input type="text" formControlName="telefone" />
+          </label>
+          <br>
+          <label>
+            Endereço:
+            <input type="text" formControlName="endereco" />
+          </label>
+    
+          <!-- <button type="submit" [disabled]="meuFormulario.invalid">Adicionar Contato</button> -->
+          <button type="submit" [disabled]="meuFormulario.invalid">Enviar</button>
           </form>
         </div>
-        <button class="primary" type="button" id="contato_new" (click)="adicionarContatoShow()">Adicionar Contato</button>
-      <div id="addContato">
-        <form [formGroup]="meuFormulario" (ngSubmit)="onSubmit()">
-        <label>
-          Nome:
-        <input type="text" formControlName="nome" />
-        </label>
-        <br>
-        <label>
-          Telefone:
-          <input type="text" formControlName="telefone" />
-        </label>
-        <br>
-        <label>
-          Endereço:
-          <input type="text" formControlName="endereco" />
-        </label>
-  
-        <!-- <button type="submit" [disabled]="meuFormulario.invalid">Adicionar Contato</button> -->
-        <button type="submit" [disabled]="meuFormulario.invalid">Enviar</button>
-        </form>
-      </div>
-      <button class="primary" type="button" id="list_load" (click)="listLoad()">Carregar Lista</button>
-      <div id="contactList">
-        <ul>
-          <li *ngFor="let valor of contatoService.getContatos().values()">
-            Hash: {{valor.hash}} | Posição: {{valor.pos}} | Nome: {{valor.nome}} | Telefone: {{valor.telefone}} | Endereco: {{valor.endereco}}
-          </li>
-        </ul>
-      </div>
+        <div id="contactList">
+          <ul>
+            <li *ngFor="let valor of contatoService.getContatos().values()">
+              Hash: {{valor.hash}} | Posição: {{valor.pos}} | Nome: {{valor.nome}} | Telefone: {{valor.telefone}} | Endereco: {{valor.endereco}}
+            </li>
+          </ul>
+        </div>
+      </div> 
     </section>
   `,
   styleUrl: './home.component.css'
@@ -82,6 +89,8 @@ export class HomeComponent implements OnInit {
 
       this.contatoService.adicionarContato(novoContato);
       alert(`Contato adicionado: ${novoContato.nome}`);
+
+      this.meuFormulario.reset()
   }
 
   ngOnInit(): void {
@@ -99,25 +108,49 @@ export class HomeComponent implements OnInit {
 
   mostrarInput() {
     let inputContainer = document.getElementById("inputContainer");
+    let addContato = document.getElementById("addContato");
+    let listContainer = document.getElementById("contactList");
   
     if (inputContainer) {
-      if (inputContainer.style.display !== "block") {
-        inputContainer.style.display = "block";
+      if (inputContainer.style.display !== "flex") {
+        inputContainer.style.display = "flex";
       } else {
         inputContainer.style.display = "none";
+      }
+    }
+    if (addContato) {
+      if (addContato.style.display !== "none") {
+        addContato.style.display = "none";
+      }
+    }
+    if (listContainer) {
+      if (listContainer.style.display !== "none") {
+        listContainer.style.display = "none";
       }
     }
   
   }
 
   adicionarContatoShow() {
-    let inputContainer = document.getElementById("addContato");
+    let addContato = document.getElementById("addContato");
+    let inputContainer = document.getElementById("inputContainer");
+    let listContainer = document.getElementById("contactList");
   
-    if (inputContainer) {
-      if (inputContainer.style.display !== "block") {
-        inputContainer.style.display = "block";
+    if (addContato) {
+      if (addContato.style.display !== "block") {
+        addContato.style.display = "block";
       } else {
+        addContato.style.display = "none";
+      }
+    }
+    if (inputContainer) {
+      if (inputContainer.style.display !== "none") {
         inputContainer.style.display = "none";
+      }
+    }
+    if (listContainer) {
+      if (listContainer.style.display !== "none") {
+        listContainer.style.display = "none";
       }
     }
   }
@@ -134,18 +167,32 @@ export class HomeComponent implements OnInit {
     else {
       alert('Cliente não cadastrado no sistema.')
     }
+
+    this.buscarContatoForm.reset();
    
    }
    
 
   listLoad(): void {
     let listContainer = document.getElementById("contactList");
+    let addContato = document.getElementById("addContato");
+    let inputContainer = document.getElementById("inputContainer");
   
     if (listContainer) {
       if (listContainer.style.display !== "block") {
         listContainer.style.display = "block";
       } else {
         listContainer.style.display = "none";
+      }
+    }
+    if (inputContainer) {
+      if (inputContainer.style.display !== "none") {
+        inputContainer.style.display = "none";
+      }
+    }
+    if (addContato) {
+      if (addContato.style.display !== "none") {
+        addContato.style.display = "none";
       }
     }
   }
