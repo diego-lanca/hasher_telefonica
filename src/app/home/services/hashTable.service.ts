@@ -20,7 +20,7 @@ export class ContatoService {
 
   // Função para calcular a posição de um contato e ajustar o hash do contato se a posição já estiver ocupada
   setPos(arg: Contato): any {
-    let position = arg.hash % 100;
+    let position = arg.hash % 1000;
 
     while (this.contatos.has(position)) {
       const existingContact = this.contatos.get(position);
@@ -49,7 +49,7 @@ export class ContatoService {
       return NaN;
     }
 
-    let position = hash % 100;
+    let position = hash % 1000;
 
     return position;
   }

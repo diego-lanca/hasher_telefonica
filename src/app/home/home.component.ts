@@ -216,7 +216,7 @@ export class HomeComponent implements OnInit {
 
   // Função para buscar um contato com base no nome
   buscarContato() {
-    const nome = this.buscarContatoForm.value.nome;
+    const nome = this.buscarContatoForm.value.nome.toLowerCase();
     const contatoService = this.contatoService;
 
     const pos = contatoService.getPos(nome);
@@ -226,7 +226,7 @@ export class HomeComponent implements OnInit {
     for (let i = 0; i < 5; i++) {
       if (contatoService.contatos.has(pos + i)) {
         const contato = contatoService.getContatos(pos + i);
-        const contatoNome = contato.nome;
+        const contatoNome = contato.nome.toLowerCase();
 
         if (contatoNome == nome) {
           this.detalhesContato = contato;

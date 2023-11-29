@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class AuthService {
     criarHash(nome: string): number {
-      const nomeLowerCase = nome; // Padroniza para minúsculas
+      const nomeLowerCase = nome.toLowerCase(); // Padroniza para minúsculas
       let nomeAscii = '';
   
       for (let i = 0; i < nomeLowerCase.length; i++) {
